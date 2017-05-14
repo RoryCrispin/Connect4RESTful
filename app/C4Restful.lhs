@@ -59,8 +59,11 @@ Specify the type of the api - there are four endpoints:
   - playerMove - takes a board and a column from the BoardState and returns a either
     a new BoarsState with the players move added or the original BoardState with an error code
 
-  - freshBoard /:rows/:cols pass in the size of the board and this will return a fresh
+  - freshBoard /:rows/:cols - pass in the size of the board and this will return a fresh
     gamestate with a board of that size (ie new game)
+
+  - static - host the game html files - not really needed by the API but it's
+      convenient not to need a second webserver.
 
 > type BoardAPI = "getAIMove" :> ReqBody '[JSON] BoardState :> Post '[JSON] BoardState
 >                      :<|>  "playerMove" :> ReqBody '[JSON] BoardState :> Post '[JSON] BoardState
@@ -74,7 +77,6 @@ Specify the type of the api - there are four endpoints:
 > server :: Server BoardAPI
 > server = handleMakeAiMove :<|> handleMakePlayerMove :<|> freshBoardHandler :<|> staticHandler
 
-
 > freshBoardHandler r c = return (BoardState (blankBoard r c) B 0 4 0)
 > staticHandler = serveDirectory "static-files"
 > handleMakePlayerMove bs = return (makePlayerMove bs)
@@ -85,11 +87,22 @@ Error codes :
         | 1 -> Invalid move
         | 2 -> Full voard
 
+Because of the stateless nature of the system - both AI and Player move handlers
+will assume they should place a token for the user with the least tokens on the board
+meaning that we don't ever have to keep track of whose turn it is.
+
+AI move handler || if theres an error, just return the original board sent in the req
+    otherwise simulate an ai turn and return.
+
 > makeAiMove :: BoardState -> BoardState
 > makeAiMove (BoardState b w e d _) = case e of
 >                                       0 -> BoardState aiBoard (whoseVictory aiBoard) (isBoardFullToErrorCode aiBoard) d 0
 >                                       otherwise -> BoardState b w e d 0
 >                                       where aiBoard = (aIGenerateBoard d b (whoseTurn b))
+
+Player move handler || check if the move is valid - if not return the original board
+      with error code 1
+      else check for victories and return the board.
 
 > makePlayerMove :: BoardState -> BoardState
 > makePlayerMove (BoardState b w _ d col) = case evalMove of
@@ -97,6 +110,8 @@ Error codes :
 >                                     otherwise -> BoardState evalMove (whoseVictory evalMove)
 >                                              (isBoardFullToErrorCode evalMove) d col
 >                                     where evalMove = (isDropTokenValid col (whoseTurn b) b)
+
+Convert isBoardFull :: Bool into an error code we can use in the api.
 
 > isBoardFullToErrorCode :: Board -> Int
 > isBoardFullToErrorCode b = if (isBoardFull b) then 2 else 0
@@ -106,9 +121,6 @@ Error codes :
 
 > main :: IO()
 > main = (run 8081) app
-
-> liftBoard :: BoardState -> Board
-> liftBoard (BoardState b _ _ _ _) = b
 
 Generate the next ai move with MinMaxTeees. The function will return [] if it
 can't make any moves, ie someone has already won so in this case; return the
