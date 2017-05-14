@@ -1,0 +1,31 @@
+name:                C4Restful
+version:             0.1.0.0
+description:         Connect Four RESTful server implemented in Haskell
+homepage:            https://github.com/rorycrispin/C4Restful#readme
+license:             BSD3
+license-file:        LICENSE
+author:              Rory Crispin
+maintainer:          gmail.com, rorycr96@
+copyright:           2017 Rory Crispin
+category:            Web
+build-type:          Simple
+extra-source-files:  README.md
+data-files:          static-files/index.html
+                   , static-files/style.css
+                   , static-files/game.js
+cabal-version:       >=1.10
+
+executable C4Restful-exe
+  hs-source-dirs:      app
+  main-is:             C4Restful.lhs
+  build-depends:       base
+                     , servant-server
+                     , wai-cors
+                     , aeson
+                     , warp
+                     , wai
+  default-language:    Haskell2010
+
+source-repository head
+  type:     git
+  location: https://github.com/rorycrispin/C4Restful

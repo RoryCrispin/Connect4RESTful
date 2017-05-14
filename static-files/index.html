@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Connect Four</title>
+    <link rel="stylesheet" type="text/css" href="style.css"></link>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="game.js"></script>
+</head>
+<body>
+
+    <h1> Connect Four </h1>
+    <div class="board">
+    </div>
+
+    <h3> Game Options</h3>
+
+    <div id="controls">
+        <h4> Difficulty <input id="difficultySlider" onchange="sliderChanged(this.value)" type="range" min=2 max=5 step=1 value="4"/> </h4>
+
+        <label for="RowCountInput">Rows</label><input id="RowCountInput" value="6" type="number"/>
+        <br>
+        <label for="ColCountInput">Cols &nbsp</label><input id="ColCountInput" value="7" type="number"/>
+        <br>
+
+        <button type="button" onclick="newGame()">New Game</button>
+    </div>
+
+
+
+</body>
+</html>
