@@ -1,5 +1,5 @@
 // Change this to your host location
-var apiLocation = "http://localhostL8081"
+var apiLocation = "http://localhost:8081"
 
 // Declare the initial globals
 var gameState;
