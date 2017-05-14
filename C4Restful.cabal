@@ -1,7 +1,7 @@
 name:                C4Restful
 version:             0.1.0.0
 description:         Connect Four RESTful server implemented in Haskell
-homepage:            https://github.com/rorycrispin/C4Restful#readme
+homepage:            https://github.com/RoryCrispin/Connect4RESTful#readme
 license:             BSD3
 license-file:        LICENSE
 author:              Rory Crispin
@@ -28,4 +28,4 @@ executable C4Restful-exe
 
 source-repository head
   type:     git
-  location: https://github.com/rorycrispin/C4Restful
+  location: https://github.com/RoryCrispin/Connect4RESTful
