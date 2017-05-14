@@ -1,9 +1,13 @@
 // Change this to your host location
-var apiLocation = "http://localhost:8081"
+var apiLocation = "http://localhost:8081";
 
 // Declare the initial globals
 var gameState;
 var calculatingMove = false;
+var aiEnabled = true;
+
+
+
 
 $(document).ready(function(){
     newGame();
@@ -64,7 +68,7 @@ function makeMove(x, aiMove){
             // We a request for the players move first then for the subsequent ai move so that we can give the user
             // instant visual feedback of their move while the computer calculates a response.
             setTimeout(function() { // Introduce a timeout delay so the DOM will update before runnning the second request.
-                if (!aiMove && gameState.winner === 'B' && gameState.errorCode===0) makeMove(0, true);
+                if (!aiMove && gameState.winner === 'B' && gameState.errorCode===0 && aiEnabled) makeMove(0, true);
             }, 1);
         },
         error: function () {
@@ -72,6 +76,8 @@ function makeMove(x, aiMove){
         }
     });
 }
+
+
 
 
 function handleResponse(response, aiMove){
@@ -101,4 +107,16 @@ function handleResponse(response, aiMove){
 
 function sliderChanged(v){
     gameState.difficulty = parseInt(v);
+}
+
+
+function aiDropdownChanged(v){
+    switch (v) {
+        case "ai":
+            aiEnabled = true;
+            break;
+        case "human":
+            aiEnabled = false;
+            break;
+    }
 }
