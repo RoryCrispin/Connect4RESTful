@@ -65,3 +65,14 @@ Error codes :
 # Warning
 
 If you deliberately try to crash the serer you will succeed - this sort of stability was beyond the project spec - feel free to mess about on your local build of the server but please don't knock the rorycrispin.co.uk server down. 
+
+# Onwards
+It would've been nice to be able to include a winning combo length in the GameState so we can set winning conditions on-the-fly but this involved passing the winning combo length int through just about every function in the code. Not pretty! 
+I'd like to have written this with monadic state to reduce the messiness of data passing. 
+
+Also, as previously mentioned the server should provide some form of stability protection - simple stuff like checking that the user hasn't requested crazy high board widths or search tree depths (difficulty) would be nice to have. 
+
+The wai  server didn't play ball with CORS headers despite trying. As a public api this would be nice so that in theory any host could make use of this api.
+
+
+
