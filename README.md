@@ -62,3 +62,6 @@ Error codes :
         | 1 -> Invalid move
         | 2 -> Full board
 
+# Warning
+
+If you deliberately try to crash the serer you will succeed - this sort of stability was beyond the project spec - feel free to mess about on your local build of the server but please don't knock the rorycrispin.co.uk server down. 
